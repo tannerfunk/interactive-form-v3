@@ -21,4 +21,29 @@ userJobRole.addEventListener("change", (e) => {
     console.log(e.target.value)
 });
 
+const userDesign = document.getElementById("design");
+const userColor = document.getElementById("color");
+
+//console.log(userDesign);
+//console.log(userColor);
+//console.log(userColor.children[1]);
+userColor.disabled = true
+
+userDesign.addEventListener("change", (event) => {
+    userColor.disabled = false;
+    for (let i = 1; i < userColor.children.length; ++i) {
+        const eVal = event.target.value;
+        const userTheme = userColor.children[i].getAttribute("data-theme");
+        //console.log(eVal);
+        //console.log(userTheme);
+        if (eVal === userTheme) {
+            userColor.children[i].hidden = false;
+            userColor.children[i].setAttribute.select = true;
+        } else {
+            userColor.children[i].hidden = true;
+            userColor.children[i].setAttribute.select = false;
+        }
+    }
+
+});
 
