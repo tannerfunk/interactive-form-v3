@@ -77,8 +77,8 @@ console.log(bit);
 pal.style.display = "none";
 bit.style.display = "none";
 
-payHow.children[2].setAttribute.select = true; //confused about this???!!!
-console.log(payHow.children[2].value)
+payHow.children[1].setAttribute('selected', true);
+let creditCheck = payHow.children[1].getAttribute('selected');
 
 payHow.addEventListener("change", (e) => {
    if (e.target.value == pal.id ) {
@@ -107,41 +107,100 @@ const form1 = document.getElementsByTagName("form")[0];
 console.log(form1);
 const activities = document.querySelectorAll('input[type = "checkbox"]');
 
-form1.addEventListener("submit", (e) => {
+let counter = 0;
+
+
+function isGoodUsername(){
     const userNameValue = userName.value;
     let isBadUsername = /^$|\s+/i.test(userNameValue);
-    if (isBadUsername) {
-        e.preventDefault();
+    if (!isBadUsername) {
+        return true;
+    } else {
+        return false;
     }
+};
+
+function isGoodEmail(){
     const userEmailValue = userEmail.value;
     let isGoodEmail = /^[^@]+@[^@.]+\.[a-z]+$/i.test(userEmailValue);
-    console.log(isGoodEmail);
-    console.log(userEmail.value);
-    if (!isGoodEmail) {
-        e.preventDefault();
+    
+    if (isGoodEmail) {
+        return true;
+    } else {
+        return false;
     }
-    let counter = 0;
+}
+
+function isGoodTotal(){
     for (let i = 0; i < activities.length; ++i) {
         if (activities[i].checked) {
             counter = ++counter;
         }
     }
-    if (counter < 1) {
+    if (counter >= 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isGoodCredit(){
+    const cardNumberValue = cardNumber.value;
+        let isGoodCardNumber = /^[0-9]{13,16}$/.test(cardNumberValue);
+        if (isGoodCardNumber) {
+            return true;
+        } else {
+            return false;
+        }
+
+}
+
+function isGoodZip(){
+    const zipCodeValue = zipCode.value;
+        let isGoodZip = /^\d{5}?$/.test(zipCodeValue);
+        if (isGoodZip) {
+            return true;
+        } else {
+            return false;
+        }
+}
+
+function isGoodCVV(){
+    const cvvValue = CVV.value;
+        let isGoodCVV = /^\d{3}?$/.test(cvvValue);
+        if (isGoodCVV) {
+            return true;
+        } else {
+            return false;
+        }
+}
+
+
+function isGoodCard(){
+    if (pal.style.display === "block" || bit.style.display === "block") {
+        return true
+    } else {
+        const creditChecker = isGoodCredit();
+        const zipChecker = isGoodZip();
+        const cvvChecker = isGoodCVV();
+        return creditChecker && zipChecker && cvvChecker;
+    }
+}
+
+function isFormGood(){
+    const nameChecker = isGoodUsername();
+    const emailChecker = isGoodEmail();
+    const totalChecker = isGoodTotal();
+    const cardChecker = isGoodCard();
+    return nameChecker && emailChecker && totalChecker && cardChecker;
+
+} 
+
+form1.addEventListener("submit", (e) => {
+    if (isFormGood()) {
+        //RUN
+    } else {
         e.preventDefault();
     }
-    if (credit.style.display == "block") {
-        const cardNumberValue = cardNumber.value;
-        let isGoodCardNumber = /[0-9]{13,16}/.test(cardNumberValue);
-        if (!isGoodCardNumber) {
-            e.preventDefault();
-            console.log(cardNumberValue);
-        }
-        const zipCodeValue = zipCode.value;
-        let isGoodZip = /^(\d{5})?$/.test(zipCodeValue);
-        if (!isGoodZip) {
-            e.preventDefault();
-            console.log(zipCodeValue);
-        }
-    }
-
 });
+
