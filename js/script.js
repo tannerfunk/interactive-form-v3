@@ -114,8 +114,10 @@ function isGoodUsername(){
     const userNameValue = userName.value;
     let isBadUsername = /^$|\s+/i.test(userNameValue);
     if (!isBadUsername) {
+        showValid(userName);
         return true;
     } else {
+        showInvalid(userName);
         return false;
     }
 };
@@ -125,11 +127,15 @@ function isGoodEmail(){
     let isGoodEmail = /^[^@]+@[^@.]+\.[a-z]+$/i.test(userEmailValue);
     
     if (isGoodEmail) {
+        showValid(userEmail);
         return true;
     } else {
+        showInvalid(userEmail);
         return false;
     }
 }
+
+
 
 function isGoodTotal(){
     for (let i = 0; i < activities.length; ++i) {
@@ -138,8 +144,10 @@ function isGoodTotal(){
         }
     }
     if (counter >= 1) {
+        showValid(registerElement);
         return true;
     } else {
+        showInvalid(registerElement);
         return false;
     }
 }
@@ -148,8 +156,10 @@ function isGoodCredit(){
     const cardNumberValue = cardNumber.value;
         let isGoodCardNumber = /^[0-9]{13,16}$/.test(cardNumberValue);
         if (isGoodCardNumber) {
+            showValid(cardNumber);
             return true;
         } else {
+            showInvalid(cardNumber);
             return false;
         }
 
@@ -159,8 +169,10 @@ function isGoodZip(){
     const zipCodeValue = zipCode.value;
         let isGoodZip = /^\d{5}?$/.test(zipCodeValue);
         if (isGoodZip) {
+            showValid(zipCode);
             return true;
         } else {
+            showInvalid(zipCode);
             return false;
         }
 }
@@ -169,12 +181,13 @@ function isGoodCVV(){
     const cvvValue = CVV.value;
         let isGoodCVV = /^\d{3}?$/.test(cvvValue);
         if (isGoodCVV) {
+            showValid(CVV);
             return true;
         } else {
+            showInvalid(CVV);
             return false;
         }
 }
-
 
 function isGoodCard(){
     if (pal.style.display === "block" || bit.style.display === "block") {
@@ -203,4 +216,36 @@ form1.addEventListener("submit", (e) => {
         e.preventDefault();
     }
 });
+
+const activitiesElements = document.getElementsByTagName("input");
+console.log(activitiesElements);
+console.log(activitiesElements.length);
+
+console.log(registerElement);
+
+
+for (let i = 1; i < activitiesElements.length; ++i) {
+    activitiesElements[i].addEventListener("focus", (e) => {
+        activitiesElements[i].parentElement.classList.add("focus");
+    })
+    activitiesElements[i].addEventListener("blur", (e) => {
+        activitiesElements[i].parentElement.classList.remove("focus");
+    })
+}
+
+const butt = document.querySelector("button");
+console.log(butt);
+
+function showValid(element) {
+    element.parentElement.classList.add('valid');
+    element.parentElement.classList.remove('not-valid');
+    element.parentElement.lastElementChild.style.display = 'none';
+    butt.style.display = "block";
+}
+
+function showInvalid(element){
+    element.parentElement.classList.add('not-valid');
+    element.parentElement.classList.remove('valid');
+    element.parentElement.lastElementChild.style.display = 'block';
+}
 
