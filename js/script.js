@@ -1,40 +1,38 @@
-console.log("test")
 
-const userName = document.getElementById("name"); // grab the element and focus it when the page loads
+
+// grab the element and focus it when the page loads
+const userName = document.getElementById("name"); 
 userName.focus()
 
-const userJobRole = document.getElementById("title"); //grab these other elements
+//grab these other elements
+const userJobRole = document.getElementById("title"); 
 const userJobRoleOther = document.getElementById("other-job-role");
 
-console.log(userJobRole); 
-console.log(userJobRoleOther);
 
-userJobRoleOther.style.display = 'none'; //use javascript to hide it!
+//use javascript to hide the other job role entry field
+userJobRoleOther.style.display = 'none'; 
 
+//show it if necessary
 userJobRole.addEventListener("change", (e) => {
     if (e.target.value === 'other') {
         userJobRoleOther.style.display = 'block';
     } else {
         userJobRoleOther.style.display = 'none';
     }
-    console.log(e.target.value)
 });
 
 const userDesign = document.getElementById("design");
 const userColor = document.getElementById("color");
 
-//console.log(userDesign);
-//console.log(userColor);
-//console.log(userColor.children[1]);
 userColor.disabled = true
 
+//listening to see if choosing a color is necessary
 userDesign.addEventListener("change", (event) => {
     userColor.disabled = false;
     for (let i = 1; i < userColor.children.length; ++i) {
         const eVal = event.target.value;
         const userTheme = userColor.children[i].getAttribute("data-theme");
-        //console.log(eVal);
-        //console.log(userTheme);
+    
         if (eVal === userTheme) {
             userColor.children[i].hidden = false;
             userColor.children[i].setAttribute.select = true;
@@ -46,16 +44,13 @@ userDesign.addEventListener("change", (event) => {
 });
 
 const registerElement = document.getElementById("activities");
-console.log(registerElement);
 const totalCostElement = document.getElementById("activities-cost");
-console.log(totalCostElement);
 
 let totalCost = 0;
-
+//figure out the total number that should be displayed
 registerElement.addEventListener("change", (e) => {
     const dataCostRef = e.target.getAttribute("data-cost")
-    //console.log(+dataCostRef);
-    //console.log(typeof +dataCostRef)
+
     if (e.target.checked) {
         totalCost = totalCost + +dataCostRef;
     } else {
@@ -66,20 +61,17 @@ registerElement.addEventListener("change", (e) => {
 
 
 const payHow = document.getElementById("payment");
-console.log(payHow);
-const credit = document.getElementById("credit-card"); //grabbing allll that's related to the credit card
-console.log(credit);
+//grabbing allll that's related to the credit card
+const credit = document.getElementById("credit-card"); 
 const pal = document.getElementById("paypal");
-console.log(pal);
 const bit = document.getElementById("bitcoin")
-console.log(bit);
 
 pal.style.display = "none";
 bit.style.display = "none";
-
+//setting default credit card options
 payHow.children[1].setAttribute('selected', true);
 let creditCheck = payHow.children[1].getAttribute('selected');
-
+//changing the payment options depending on what's clicked
 payHow.addEventListener("change", (e) => {
    if (e.target.value == pal.id ) {
        credit.style.display = "none";
@@ -97,19 +89,17 @@ payHow.addEventListener("change", (e) => {
 });
 
 
-// Name element ----> userName
+// getting ready to deal with all of the following elements
 const userEmail = document.getElementById("email");
-// Register element ----> registerElement
 const cardNumber = document.getElementById("cc-num");
 const zipCode = document.getElementById("zip");
 const CVV = document.getElementById("cvv");
 const form1 = document.getElementsByTagName("form")[0];
-console.log(form1);
 const activities = document.querySelectorAll('input[type = "checkbox"]');
 
 let counter = 0;
 
-
+//multiple functions checking if the aspects of the form are good
 function isGoodUsername(){
     const userNameValue = userName.value;
     let isBadUsername = /^$|\s+/i.test(userNameValue);
@@ -135,7 +125,7 @@ function isGoodEmail(){
     }
 }
 
-
+const reggy = document.querySelector(".reggy");
 
 function isGoodTotal(){
     for (let i = 0; i < activities.length; ++i) {
@@ -144,10 +134,10 @@ function isGoodTotal(){
         }
     }
     if (counter >= 1) {
-        showValid(registerElement);
+        showValid(reggy);
         return true;
     } else {
-        showInvalid(registerElement);
+        showInvalid(reggy);
         return false;
     }
 }
@@ -189,6 +179,7 @@ function isGoodCVV(){
         }
 }
 
+// a function summarizing the card info
 function isGoodCard(){
     if (pal.style.display === "block" || bit.style.display === "block") {
         return true
@@ -200,6 +191,7 @@ function isGoodCard(){
     }
 }
 
+// a function summarizing ALL the info
 function isFormGood(){
     const nameChecker = isGoodUsername();
     const emailChecker = isGoodEmail();
@@ -208,7 +200,7 @@ function isFormGood(){
     return nameChecker && emailChecker && totalChecker && cardChecker;
 
 } 
-
+//checking if it's okay to submit
 form1.addEventListener("submit", (e) => {
     if (isFormGood()) {
         //RUN
@@ -218,12 +210,8 @@ form1.addEventListener("submit", (e) => {
 });
 
 const activitiesElements = document.getElementsByTagName("input");
-console.log(activitiesElements);
-console.log(activitiesElements.length);
 
-console.log(registerElement);
-
-
+// form validation
 for (let i = 1; i < activitiesElements.length; ++i) {
     activitiesElements[i].addEventListener("focus", (e) => {
         activitiesElements[i].parentElement.classList.add("focus");
@@ -234,8 +222,7 @@ for (let i = 1; i < activitiesElements.length; ++i) {
 }
 
 const butt = document.querySelector("button");
-console.log(butt);
-
+//showing or not showing hints to the user upon submission
 function showValid(element) {
     element.parentElement.classList.add('valid');
     element.parentElement.classList.remove('not-valid');
